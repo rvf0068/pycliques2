@@ -1,0 +1,1 @@
+This is a Python package to study the clique graph operator.

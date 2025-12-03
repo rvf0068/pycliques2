@@ -1,0 +1,21 @@
+[project]
+name = "pycliques2"
+version = "0.1.0"
+description = "A Python package to study the clique graph operator"
+readme = "README.md"
+authors = [
+    { name = "Rafael Villarroel", email = "rvf0068@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "networkx>=3.6",
+]
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.1",
+]
