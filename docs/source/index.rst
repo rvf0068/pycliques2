@@ -26,3 +26,4 @@ Contents
    :maxdepth: 2
 
    Module Reference <api/modules>
+   License <license>

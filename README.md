@@ -12,3 +12,7 @@ from pycliques2 import Clique, clique_graph
 graph = clique_graph(nx.cycle_graph(4))
 print(graph.nodes())
 ```
+
+## License
+
+This project is distributed under the MIT License. See [LICENSE](LICENSE).
