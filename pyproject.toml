@@ -19,4 +19,6 @@ build-backend = "uv_build"
 dev = [
     "pytest>=9.0.1",
     "pytest-cov>=7.0.0",
+    "sphinx>=9.0.2",
+    "sphinx-rtd-theme>=0.5.1",
 ]

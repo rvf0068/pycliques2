@@ -1,9 +1,23 @@
 class Clique(frozenset):
-    """
-    Base class for a clique in a graph.
+    """Base class for a clique in a graph.
 
-    This class is derived from frozenset, but we modify its representation so
-    that it does not print the word 'frozenset'.
+    This class derives from :class:`frozenset` but overrides ``__repr__`` so
+    that instances display like plain set literals instead of ``frozenset``.
+
+    Examples
+    --------
+
+    Inspecting a non-empty clique produces a clean set-style representation::
+
+        >>> from pycliques2.cliques import Clique
+        >>> Clique({1, 2, 3})
+        {1, 2, 3}
+
+    Empty cliques render as ``{}``, which keeps doctest outputs short and lets
+    documentation examples double as regression tests::
+
+        >>> Clique([])
+        {}
     """
     def __repr__(self):
         u = set(self)
