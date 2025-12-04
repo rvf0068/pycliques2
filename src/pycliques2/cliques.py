@@ -3,6 +3,7 @@ from __future__ import annotations
 from functools import singledispatch
 import itertools
 import math
+from typing import TypeAlias
 
 import networkx as nx
 
@@ -28,7 +29,7 @@ class Clique(frozenset):
         {}
     """
     def __repr__(self) -> str:
-        """Return a set-style string representation for doctest friendliness."""
+        """Return a set-style string representation."""
         u = set(self)
         if len(u) == 0:
             return "{}"
@@ -36,8 +37,14 @@ class Clique(frozenset):
             return f"{u}"
 
 
+NodeH: TypeAlias = tuple[int, Clique]
+
+
 @singledispatch
-def clique_graph(graph: nx.Graph, bound: int | float = math.inf) -> nx.Graph | None:
+def clique_graph(
+        graph: nx.Graph,
+        bound: int | float = math.inf
+) -> nx.Graph | None:
     """Produce the clique graph of an undirected NetworkX graph.
 
     .. rubric:: Parameters
@@ -45,7 +52,7 @@ def clique_graph(graph: nx.Graph, bound: int | float = math.inf) -> nx.Graph | N
     graph : networkx.Graph
         Input graph whose cliques will become nodes of the output graph.
     bound : int, optional
-        Maximum number of cliques to allow before aborting (default: ``math.inf``).
+        Maximum number of cliques before aborting (default: ``math.inf``).
 
     .. rubric:: Returns
 
@@ -116,7 +123,6 @@ def homotopy_clique_graph(graph: nx.Graph) -> nx.Graph:
     True
     """
     # A node in H is a (vertex, clique) tuple
-    NodeH = tuple[int, Clique]
 
     def _ady(c1: NodeH, c2: NodeH) -> bool:
         return (c1[0] in c2[1]) and (c2[0] in c1[1])
