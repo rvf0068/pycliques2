@@ -1,6 +1,6 @@
 import networkx as nx
 
-from pycliques2.cliques import Clique, clique_graph
+from pycliques2 import Clique, clique_graph, homotopy_clique_graph
 
 
 def test_clique_creation():
@@ -44,3 +44,21 @@ def test_clique_graph_bound_returns_none_when_exceeded():
     """If the bound is too small, the computation aborts with None."""
     graph = nx.cycle_graph(4)
     assert clique_graph(graph, bound=2) is None
+
+
+def test_homotopy_clique_graph_vertex_clique_pairs():
+    """Nodes in the homotopy clique graph are (vertex, clique) pairs."""
+    graph = nx.path_graph(3)
+    h_graph = homotopy_clique_graph(graph)
+    assert len(h_graph) == 4
+    for vertex, clique in h_graph.nodes:
+        assert isinstance(vertex, int)
+        assert isinstance(clique, Clique)
+        assert vertex in clique
+
+
+def test_homotopy_clique_graph_preserves_connectivity_on_path():
+    """H(P3) should be connected because all nodes share adjacency."""
+    graph = nx.path_graph(3)
+    h_graph = homotopy_clique_graph(graph)
+    assert nx.is_connected(h_graph)

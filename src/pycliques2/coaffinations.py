@@ -5,9 +5,12 @@ A *coaffination* of a graph :math:`G` is an automorphism
 :math:`x`.
 """
 
+from __future__ import annotations
+
 import math
 import networkx as nx
 from networkx.algorithms import isomorphism
+from typing import Dict, Iterator
 
 from pycliques2 import Clique, clique_graph
 
@@ -29,14 +32,17 @@ class CoaffinePair(object):
     >>> kpair.coaffination
     {{0, 1}: {2, 3}, {0, 3}: {1, 2}, {1, 2}: {0, 3}, {2, 3}: {0, 1}}
     """
-    def __init__(self, graph, coaffination):
-        """Store the base graph and its associated automorphism mapping."""
+    def __init__(self, graph: nx.Graph, coaffination: dict[int, int]):
+        """Store the base graph and its associated automorphism."""
         self.graph = graph
         self.coaffination = coaffination
 
 
 @clique_graph.register
-def _(pair: CoaffinePair, bound=math.inf):
+def _(
+        pair: CoaffinePair,
+        bound: int | float = math.inf
+) -> CoaffinePair | None:
     """Return the clique graph of a :class:`CoaffinePair` as another pair.
 
     .. rubric:: Parameters
@@ -60,13 +66,15 @@ def _(pair: CoaffinePair, bound=math.inf):
     sigma = pair.coaffination
     # We call the original generic clique_graph logic on the underlying graph
     kg = clique_graph.registry[object](g, bound)
-    coaf_k = {}
+    if kg is None:
+        return None
+    coaf_k: Dict[Clique, Clique] = {}
     for q in kg:
         coaf_k[q] = Clique([sigma[x] for x in q])
     return CoaffinePair(kg, coaf_k)
 
 
-def automorphisms(graph):
+def automorphisms(graph: nx.Graph) -> Iterator[dict[int, int]]:
     """Yield every automorphism of ``graph`` as a dict mapping.
 
     .. rubric:: Parameters
@@ -93,10 +101,10 @@ def automorphisms(graph):
 
     """
     GM = isomorphism.GraphMatcher(graph, graph)
-    return GM.subgraph_isomorphisms_iter()
+    yield from GM.subgraph_isomorphisms_iter()
 
 
-def coaffinations(graph, k):
+def coaffinations(graph: nx.Graph, k: int) -> Iterator[dict[int, int]]:
     """Yield automorphisms that map a vertex outside its closed neighborhood.
 
     .. rubric:: Parameters

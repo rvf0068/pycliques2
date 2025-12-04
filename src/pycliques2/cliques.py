@@ -1,7 +1,10 @@
+from __future__ import annotations
+
 from functools import singledispatch
-import networkx as nx
 import itertools
 import math
+
+import networkx as nx
 
 
 class Clique(frozenset):
@@ -24,7 +27,7 @@ class Clique(frozenset):
         >>> Clique([])
         {}
     """
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a set-style string representation for doctest friendliness."""
         u = set(self)
         if len(u) == 0:
@@ -34,7 +37,7 @@ class Clique(frozenset):
 
 
 @singledispatch
-def clique_graph(graph, bound=math.inf):
+def clique_graph(graph: nx.Graph, bound: int | float = math.inf) -> nx.Graph | None:
     """Produce the clique graph of an undirected NetworkX graph.
 
     .. rubric:: Parameters
@@ -77,3 +80,53 @@ def clique_graph(graph, bound=math.inf):
     clique_pairs = itertools.combinations(cliques, 2)
     K.add_edges_from((c1, c2) for (c1, c2) in clique_pairs if c1 & c2)
     return K
+
+
+def homotopy_clique_graph(graph: nx.Graph) -> nx.Graph:
+    """The homotopy clique graph
+
+    .. rubric:: Parameters
+
+    graph : NetworkX graph
+            An undirected graph
+
+    .. rubric:: Returns
+
+    NetworkX graph
+        the homotopy clique graph of graph
+
+    .. rubric:: Notes
+
+    This is the operator :math:`H` defined in [Larrion08]_.
+
+     .. [Larrion08] F. Larrion, M. A. Pizana and R. Villarroel-Flores. Posets,
+         clique graphs and their homotopy type. European Journal of
+         Combinatorics, 29(1), (2008) pp. 334-342.
+
+    .. rubric:: Examples
+
+    >>> import networkx as nx
+    >>> from pycliques2 import homotopy_clique_graph
+    >>> G = nx.path_graph(3)
+    >>> H = homotopy_clique_graph(G)
+    >>> # The nodes of H are pairs (vertex, clique)
+    >>> len(H)
+    4
+    >>> nx.is_connected(H)
+    True
+    """
+    # A node in H is a (vertex, clique) tuple
+    NodeH = tuple[int, Clique]
+
+    def _ady(c1: NodeH, c2: NodeH) -> bool:
+        return (c1[0] in c2[1]) and (c2[0] in c1[1])
+
+    H = nx.Graph()
+    cliques: list[Clique] = [Clique(q) for q in nx.find_cliques(graph)]
+    vertices: list[NodeH] = [
+        (x, q) for x in graph.nodes() for q in cliques if x in q
+    ]
+    H.add_nodes_from(vertices)
+    vertex_pairs = itertools.combinations(vertices, 2)
+    H.add_edges_from((c1, c2) for (c1, c2) in vertex_pairs if _ady(c1, c2))
+    return H
