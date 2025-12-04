@@ -29,3 +29,14 @@ jobs:
 
       - name: Run tests
         run: uv run pytest
+
+      - name: Run tests with coverage
+        # --cov points to source package directory
+        # --cov-report=xml generates the file Codecov needs
+        run: uv run pytest --cov=pycliques2 --cov-report=xml
+
+      - name: Upload results to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: rvf0068/pycliques2
