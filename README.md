@@ -3,3 +3,12 @@
 [![Documentation Status](https://github.com/rvf0068/pycliques2/actions/workflows/docs.yml/badge.svg)](https://rvf0068.github.io/pycliques2/)
 
 This is a Python package to study the clique graph operator.
+
+## Quick start
+
+```python
+from pycliques2 import Clique, clique_graph
+
+graph = clique_graph(nx.cycle_graph(4))
+print(graph.nodes())
+```

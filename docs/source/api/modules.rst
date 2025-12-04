@@ -1,12 +1,18 @@
 pycliques2 API Reference
 ========================
 
-.. currentmodule:: pycliques2.cliques
+Cliques Module
+--------------
 
-cliques.py
-------
+.. automodule:: pycliques2.cliques
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-.. autoclass:: pycliques2.cliques.Clique
+Coaffinations Module
+--------------------
+
+.. automodule:: pycliques2.coaffinations
    :members:
    :undoc-members:
    :show-inheritance:

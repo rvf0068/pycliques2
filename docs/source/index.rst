@@ -7,6 +7,17 @@ A *clique* of a graph is a maximal complete subgraph.  The clique graph of a gra
 
 The clique graph of a graph :math:`G` is denoted as :math:`K(G)`. We can define the *iterated clique graphs* as the graphs in the sequence: :math:`G`, :math:`K(G)`, :math:`K^{2}(G)=K(K(G))`, etc. A graph is *divergent* if the set of orders of the iterated clique graphs is unbounded, and the graph is *convergent* if it is not divergent. A major problem in the area is, given a graph :math:`G`, deciding whether the graph is convergent or divergent.
 
+Quick Start
+-----------
+
+.. code-block:: python
+
+   from pycliques2 import Clique, clique_graph
+   import networkx as nx
+
+   g = clique_graph(nx.octahedral_graph())
+   print(g.number_of_nodes())
+
 
 Contents
 ========
