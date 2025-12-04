@@ -16,3 +16,11 @@ Coaffinations Module
    :members:
    :undoc-members:
    :show-inheritance:
+
+Surfaces Module
+-----------------
+
+.. automodule:: pycliques2.surfaces
+   :members:
+   :undoc-members:
+   :show-inheritance:
