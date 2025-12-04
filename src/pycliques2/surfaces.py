@@ -74,14 +74,13 @@ def open_neighborhood(graph: nx.Graph, v: int) -> nx.Graph:
 
 
 def is_closed_surface(graph: nx.Graph) -> bool:
-    """Return True if every vertex sees a cycle neighborhood of length ≥ 3.
+    """Return True if every vertex sees a cycle neighborhood of length ≥ 4.
 
     .. rubric:: Examples
 
     >>> import networkx as nx
     >>> from pycliques2.surfaces import is_closed_surface
-    >>> sphere = nx.tetrahedral_graph()
-    >>> is_closed_surface(sphere)
+    >>> is_closed_surface(nx.octahedral_graph())
     True
     >>> is_closed_surface(nx.cycle_graph(4))
     False
@@ -89,7 +88,7 @@ def is_closed_surface(graph: nx.Graph) -> bool:
 
     for v in graph:
         on = open_neighborhood(graph, v)
-        if on.order() < 3 or not is_cycle(on):
+        if on.order() < 4 or not is_cycle(on):
             return False
     return True
 
@@ -101,9 +100,7 @@ def is_surface(graph: nx.Graph) -> bool:
 
     >>> import networkx as nx
     >>> from pycliques2.surfaces import is_surface
-    >>> graph = nx.Graph()
-    >>> graph.add_edges_from([(0, 1), (0, 2), (0, 3), (1, 2), (1, 3)])
-    >>> is_surface(graph)
+    >>> is_surface(nx.diamond_graph())
     True
     >>> is_surface(nx.cycle_graph(4))
     False
