@@ -74,7 +74,9 @@ def open_neighborhood(graph: nx.Graph, v: int) -> nx.Graph:
 
 
 def is_closed_surface(graph: nx.Graph) -> bool:
-    """Return True if every vertex sees a cycle neighborhood of length ≥ 4.
+    """Return True if the open neighborhood of any vertex is a 'big cycle'.
+
+    A 'big cycle' has length at least 4.
 
     .. rubric:: Examples
 
