@@ -24,3 +24,11 @@ Surfaces Module
    :members:
    :undoc-members:
    :show-inheritance:
+
+Dominated Module
+----------------
+
+.. automodule:: pycliques2.dominated
+   :members:
+   :undoc-members:
+   :show-inheritance:
